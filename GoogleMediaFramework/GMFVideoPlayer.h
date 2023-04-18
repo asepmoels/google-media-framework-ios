@@ -55,7 +55,7 @@
 @property(nonatomic, readonly) UIView *renderingView;
 
 // Public method to play media via url.
-- (void)loadStreamWithURL:(NSURL* )url;
+- (AVURLAsset *)loadStreamWithURL:(NSURL* )url;
 
 // Reset the playback state to enable playing a new video in an existing player instance.
 - (void)reset;

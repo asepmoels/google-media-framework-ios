@@ -48,9 +48,7 @@ static const NSTimeInterval kAutoHideAnimationDelay = 2.0;
                                 kPaddingTop,
                                 screenWidth,
                                 screenHeight);
-  if (!_playerOverlayView) {
-    _playerOverlayView = [[GMFPlayerOverlayView alloc] initWithFrame:frameRect];
-  }
+  _playerOverlayView = [[GMFPlayerOverlayView alloc] initWithFrame:frameRect];
   [self setView:_playerOverlayView];
 }
 
@@ -154,14 +152,9 @@ static const NSTimeInterval kAutoHideAnimationDelay = 2.0;
 }
 
 - (void)hidePlayerControlsAnimated:(BOOL)animated {
-  if (animated) {
-    [self animatePlayerControlsToHidden:YES
-                      animationDuration:kAutoHideUserForcedAnimationDuration
-                             afterDelay:0];
-  } else {
-    [self playerControlsWillHide];
-    [self playerControlsDidHide];
-  }
+  [self animatePlayerControlsToHidden:animated
+                    animationDuration:kAutoHideUserForcedAnimationDuration
+                           afterDelay:0];
 }
 
 - (void)playerControlsDidHide {

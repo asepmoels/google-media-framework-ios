@@ -87,20 +87,21 @@ NSString *const kActionButtonSelectorKey = @"kActionButtonSelectorKey";
   }
 }
 
-- (void)loadStreamWithURL:(NSURL *)URL {
-  [_player loadStreamWithURL:URL];
+- (AVURLAsset *)loadStreamWithURL:(NSURL *)URL {
+  return [_player loadStreamWithURL:URL];
 }
 
 // Loads a video stream with the provided URL and requests ads via the IMA SDK with the provided
 // ad tag.
-- (void)loadStreamWithURL:(NSURL *)URL imaTag:(NSString *)tag {
-  [_player loadStreamWithURL:URL];
+- (AVURLAsset *)loadStreamWithURL:(NSURL *)URL imaTag:(NSString *)tag {
+  AVURLAsset *asset = [_player loadStreamWithURL:URL];
   if (_adService && [_adService class] == [GMFIMASDKAdService class]) {
     [(GMFIMASDKAdService *)_adService reset];
   } else {
     _adService = [[GMFIMASDKAdService alloc] initWithGMFVideoPlayer:self];
   }
   [(GMFIMASDKAdService*)_adService requestAdsWithRequest:tag];
+  return asset;
 }
 
 - (void)play {

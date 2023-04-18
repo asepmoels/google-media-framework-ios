@@ -209,10 +209,11 @@ void GMFAudioRouteChangeListenerCallback(void *inClientData,
         }];
 }
 
-- (void)loadStreamWithURL:(NSURL *)URL {
+- (AVURLAsset *)loadStreamWithURL:(NSURL *)URL {
   [self setState:kGMFPlayerStateLoadingContent];
-  AVAsset *asset = [AVAsset assetWithURL:URL];
+  AVURLAsset *asset = [AVURLAsset assetWithURL:URL];
   [self handlePlayableAsset:asset];
+  return asset;
 }
 
 #pragma mark Querying Player for info
@@ -418,12 +419,9 @@ void GMFAudioRouteChangeListenerCallback(void *inClientData,
 - (void)playerRateDidChange {
   // TODO(tensafefrogs): Abandon rate observing since it's inconsistent between HLS
   // and non-HLS videos. Rely on the poller.
-  if ([_player rate] > 0) {
+  if ([_player rate]) {
     [self startPlaybackStatusPoller];
     [self setState:kGMFPlayerStatePlaying];
-  } else if ([_player rate] == 0) {
-    // TODO(shawnbuso): Is this right? Could the rate change to 0 for states other than paused (e.g. buffering)?
-    [self setState:kGMFPlayerStatePaused];
   }
 }
 
